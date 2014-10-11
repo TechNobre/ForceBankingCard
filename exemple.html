@@ -2,29 +2,173 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Plugin Jquery (Force Card Number)</title>
+        <title>Plugin Jquery ForceCardNumber</title>
         
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="js/jquery.forceCardNumber.js"></script>
+        
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
+            h1 {
+                margin: 20px;
+            }
+            h1 .version {
+                font-size: 20px;
+                font-style: italic;
+                color: #9a9a9a;
+            }
+            .lineBox {
+                width: 100%;
+                float: left;
+            }
+            .row {
+                float: left;
+                width: 100%;
+                text-align: center;
+            }
+            div.boxExemple {
+                width: 500px;
+                margin: 10px;
+                padding: 10px;
+                border: 1px solid #000;
+                float: left;
+            }
+            div.boxExemple h2 { font-size: 20px; }
+            div.boxExemple h3 { 
+                margin: 20px 0 5px 50px;
+                font-size: 15px;
+                font-style: italic;
+            }
+            div.boxExemple .description {
+                font-size: 15px;
+                font-style: italic;
+                margin-left: 20px;
+            }
+            div.boxExemple .parameter {
+                font-size: 14px;
+                margin-left: 70px;
+                font-style: italic;
+            }
+            div.boxExemple .exemple {
+                margin-bottom: 10px;
+                padding: 5px;
+                width: 200px;
+                border: 1px dashed #000;
+                display: inline-block;
+            }
+            div.boxExemple .exemple input {
+                width: 100%;
+                border: 1px solid #000;
+                font-size: 12px;
+                padding: 2px 5px;
+            }
+            
+            div.boxExemple code {
+                display: block;
+                background-color: #eee;
+                border: 1px solid #ccc;
+                color: #000;
+                float: left;
+                width: 100%;
+                font-size: 12px;
+                padding: 15px 10px 5px 10px;
+            }
+            div.boxExemple code pre {
+                line-height: 20px;
+                float: left;
+                width: 100%;
+                font-style: italic;
+            }
+        </style>
     </head>
     <body>
-        <div>
-            <input id="cardNumber">
+        <h1>Plugin Jquery ForceCardNumber <span class="version">v:<span class="versionPlugin"></span></span></h1>
+        <div class="lineBox">
+            <div class="boxExemple">
+                <h2>Initialize plugin</h2>
+                <div class="description">How to initialize the plugin</div>
+
+                <h3>Exemple</h3>
+                <div class="row">
+                    <div class="exemple">
+                        <input type="text" id="cardNumber1">
+                    </div>
+                </div>
+                <code>
+                    <pre>
+< input type="text" id="cardNumber1" >
+$("#cardNumber1").ForceCardNumber();
+                    </pre>
+                </code>
+            </div>
         </div>
+        
+        <div class="lineBox">
+            <div class="boxExemple">
+                <h2>Align numbers</h2>
+                <div class="description">Align numbers in input</div>
+                <h3>Default parameter</h3>
+                <div class="parameter">[ left ]</div>
+                <h3>Parameters</h3>
+                <div class="parameter">[ left | center | right ]</div>
+                <h3>Exemple</h3>
+                <div class="row">
+                    <div class="exemple">
+                        <input type="text" id="cardNumber2">
+                    </div>
+                </div>
+                <code>
+                    <pre>
+< input type="text" id="cardNumber2" >
+$("#cardNumber2").ForceCardNumber({
+    align: "right"
+});
+                    </pre>
+                </code>
+            </div>
+        </div>        
+        
+        <div class="lineBox">
+            <div class="boxExemple">
+                <h2>Length</h2>
+                <div class="description">Max length digits for field</div>
+                <h3>Default parameter</h3>
+                <div class="parameter">Max length the card list max value</div>
+                <h3>Parameters</h3>
+                <div class="parameter">Intiger number</div>
+                <h3>Exemple</h3>
+                <div class="row">
+                    <div class="exemple">
+                        <input type="text" id="cardNumber3">
+                    </div>
+                </div>
+                <code>
+                    <pre>
+< input type="text" id="cardNumber3" >
+$("#cardNumber3").ForceCardNumber({
+    length: 5
+});
+                    </pre>
+                </code>
+            </div>
+        </div>    
+
         <script>
-            $("#cardNumber").ForceCardNumber({
-                //cardsValidate: ["DinersClubCarteBlanche"],
-                //cardsValidate: "InterPayment",
-                //length: 5,
-                //separatorGroup: true,
-                //numberCharGroup:2
-                /*
-                onSuccessValidate: function(data) {
-                    console.log(data);
-                },*/
-                onkeyUp: function(data) {
-                    console.log(data);
-                }
+            $(document).ready(function() {
+                $(".versionPlugin").text("1.0");
+
+                $("#cardNumber1").ForceCardNumber();
+                $("#cardNumber2").ForceCardNumber({
+                    align: "right"
+                });
+                $("#cardNumber3").ForceCardNumber({
+                    length: 5
+                });
             });
         </script>
     </body>
