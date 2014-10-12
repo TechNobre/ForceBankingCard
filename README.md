@@ -1,6 +1,10 @@
 ForceBankingCard
 ===============
 
+Version: 1.3:
+    * Added new parameter "blockCutCopyPaste"
+    * Added new method "destroy"
+
 Version: 1.2:
     * Rename plugin to "ForceBankingCard"
 

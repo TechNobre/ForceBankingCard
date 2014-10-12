@@ -2,29 +2,34 @@
 
 Plugin: Force input only numeric Banking Card and validate
 
-Options:
-    align: Align text on input [ left | center | right ],
-    length: Max length for input field [Integer number],
-    separatorGroup: If existe decimal part [ true | false ],
-    charSeparator: Character for separator group [ character ],
-    digitsGroup: Number digits for group [Integer number],
-    clearOnClick: If click in input clear field [ true | false ],
-    cardsValidate: Card list for validade [ array | string ] { AmericanExpress | DinersClubCarteBlanche | JCB | Laser | VisaElectron | Visa | Dankort | InterPayment | MasterCard | Maestro | Discover },
+Parameters:
+    Description:
+        align: Align text on input [ left | center | right ],
+        length: Max length for input field [Integer number],
+        separatorGroup: If existe decimal part [ true | false ],
+        charSeparator: Character for separator group [ character ],
+        digitsGroup: Number digits for group [Integer number],
+        clearOnClick: If click in input clear field [ true | false ],
+        blockCutCopyPaste: If it is possible to cut copy paste [ true | false ],
+        cardsValidate: Card list for validade [ array | string ] { AmericanExpress | DinersClubCarteBlanche | JCB | Laser | VisaElectron | Visa | Dankort | InterPayment | MasterCard | Maestro | Discover },
+
+    Defaults:
+        align: 'left',
+        length: null,
+        separatorGroup: true,
+        charSeparator: " ",
+        digitsGroup: 4,
+        clearOnClick: true,
+        blockCutCopyPaste: true,
+        cardsValidate: null,
+
+Callbacks:
     onSuccessValidate: Callback for card is valid [ function() {} ],
     onErrorValidate: Callback for card is not valid [ function() {} ],
     onkeyUp: Callback for keyUp [ function() {} ]
 
-Defaults:
-    align: 'left',
-    length: null,
-    separatorGroup: true,
-    charSeparator: " ",
-    digitsGroup: 4,
-    clearOnClick: true,
-    cardsValidate: null,
-    onSuccessValidate: null,
-    onErrorValidate: null,
-    onkeyUp: null
+Methods:
+    destroy: Remove plugin the element (events and data)
 
 Usage: $("element").ForceBankingCard();
 
@@ -33,7 +38,7 @@ Developer: Nelson Nobre
 Date: 11/10/2014
 Update: 12/10/2014
 
-Version: 1.1
+Version: 1.3
 ************************************************** */
 
 ; (function ($) {
@@ -45,6 +50,7 @@ Version: 1.1
             charSeparator: " ",
             digitsGroup: 4,
             clearOnClick: true,
+            blockCutCopyPaste: true,
             cardsValidate: null,
             onSuccessValidate: null,
             onkeyUp: null
@@ -106,6 +112,14 @@ Version: 1.1
                 length: [16]
             },
         };
+        function _destroyForceBankingCard(element) {
+            element.removeData("valid");
+            element.unbind("click");
+            element.unbind("cut copy paste");
+            element.unbind("keydown");
+            element.unbind("keyup");
+            element.val("");
+        }
 
     var methods = {
         init: function (options) {
@@ -175,87 +189,103 @@ Version: 1.1
             
             return this.each(function() {
                 var _me = $(this);
+                _destroyForceBankingCard(_me);
                 
-                _me.data("valid", false);
-                _me.css("text-align", options.align);
-                
-                if (options.clearOnClick) _me.click(function() { _me.val(""); });
+                if (!_me.is("input[type=text]")) { //Check the element is input text
+                    console.error("The element is not input text;")
+                } else {
+                    _me.data("valid", false);
+                    _me.css("text-align", options.align);
 
-                _me.keydown(function (event) {
-                    event.preventDefault();
-                    
-                    var key = event.charCode || event.keyCode || 0;
-                    var valueInput = _me.val();
-                    
-                    var countCharSeparator = (valueInput.match(new RegExp(options.charSeparator, "g")) || []).length;
-                    
-                    if(key == 8) {
-                        valueInput = valueInput.slice(0, valueInput.length-1);
-                        if(valueInput.slice(-1) == options.charSeparator)
+                    if (options.clearOnClick) _me.click(function() { _me.val(""); }); //When click input clear this
+
+                    if (options.blockCutCopyPaste) {
+                        _me.bind("cut copy paste", function(event) { //block cut copy paste
+                            event.preventDefault();
+                        });
+                    }
+
+                    _me.keydown(function (event) {
+                        event.preventDefault();
+
+                        var key = event.charCode || event.keyCode || 0;
+                        var valueInput = _me.val();
+
+                        var countCharSeparator = (valueInput.match(new RegExp(options.charSeparator, "g")) || []).length;
+
+                        if(key == 8) {
                             valueInput = valueInput.slice(0, valueInput.length-1);
-                    }
-                    
-                    else if((key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
-                        if((valueInput.length - countCharSeparator) < options.length) {
-                            
-                            if((valueInput.length - countCharSeparator) >= options.digitsGroup && options.separatorGroup) {
-                                if((valueInput.length - countCharSeparator) % options.digitsGroup == 0)
-                                    valueInput += options.charSeparator
-                            }
-                            if(key >= 48 && key <= 57)
-                                valueInput += (key-48);
-                            else if(key >= 96 && key <= 105)
-                                valueInput += (key-96);
+                            if(valueInput.slice(-1) == options.charSeparator)
+                                valueInput = valueInput.slice(0, valueInput.length-1);
                         }
-                    }
-                    _me.val(valueInput);
-                });
 
-                _me.keyup(function() {
-                    var _element = $(this);
-                    var _inputValue = _element.val().replace(new RegExp(options.charSeparator, 'g'), '');
-                                        
-                    valid = false;
-                    validCardType = false;
-                    validCardLength = false;
-                    validCardLuhn = false;
-                    cardNetwork = undefined;
-                    cardType = undefined;
-    
-                    for(var key in options.cardsValidate) {
-                        if(_inputValue.match(cardsList[options.cardsValidate[key]].regex)) {
-                            cardNetwork = options.cardsValidate[key];
-                            break;
-                        }                    
-                    }
-                    
-                    var validLuhn = false;
-                    if(options.cardsValidate.indexOf(cardNetwork) != -1) {
-                        validCardType = true;
-                        cardType = cardsList[cardNetwork].type;
-                        
-                        if(cardsList[cardNetwork].length.indexOf(_inputValue.length) != -1 )
-                            validCardLength = true;
-                        
-                        validCardLuhn = checkLuhn(_inputValue);
-                        valid = ((validCardType && validCardLength && validCardLuhn) ? true : false);
+                        else if((key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
+                            if((valueInput.length - countCharSeparator) < options.length) {
 
-                        if(valid) {
-                            if (options.onSuccessValidate && typeof options.onSuccessValidate == 'function') {
-                                options.onSuccessValidate.call(this, getStatusCard());
-                            }
-                        } else {
-                            if (options.onErrorValidate && typeof options.onErrorValidate == 'function') {
-                                options.onErrorValidate.call(this, getStatusCard());
+                                if((valueInput.length - countCharSeparator) >= options.digitsGroup && options.separatorGroup) {
+                                    if((valueInput.length - countCharSeparator) % options.digitsGroup == 0)
+                                        valueInput += options.charSeparator
+                                }
+                                if(key >= 48 && key <= 57)
+                                    valueInput += (key-48);
+                                else if(key >= 96 && key <= 105)
+                                    valueInput += (key-96);
                             }
                         }
-                    }
-                    if (options.onkeyUp && typeof options.onkeyUp == 'function') {
-                        options.onkeyUp.call(this, getStatusCard());
-                    }
-                    _element.data("valid", valid);
-                });
-                
+                        _me.val(valueInput);
+                    });
+
+                    _me.keyup(function() {
+                        var _element = $(this);
+                        var _inputValue = _element.val().replace(new RegExp(options.charSeparator, 'g'), '');
+
+                        valid = false;
+                        validCardType = false;
+                        validCardLength = false;
+                        validCardLuhn = false;
+                        cardNetwork = undefined;
+                        cardType = undefined;
+
+                        for(var key in options.cardsValidate) {
+                            if(_inputValue.match(cardsList[options.cardsValidate[key]].regex)) {
+                                cardNetwork = options.cardsValidate[key];
+                                break;
+                            }                    
+                        }
+
+                        var validLuhn = false;
+                        if(options.cardsValidate.indexOf(cardNetwork) != -1) {
+                            validCardType = true;
+                            cardType = cardsList[cardNetwork].type;
+
+                            if(cardsList[cardNetwork].length.indexOf(_inputValue.length) != -1 )
+                                validCardLength = true;
+
+                            validCardLuhn = checkLuhn(_inputValue);
+                            valid = ((validCardType && validCardLength && validCardLuhn) ? true : false);
+
+                            if(valid) {
+                                if (options.onSuccessValidate && typeof options.onSuccessValidate == 'function') {
+                                    options.onSuccessValidate.call(this, getStatusCard());
+                                }
+                            } else {
+                                if (options.onErrorValidate && typeof options.onErrorValidate == 'function') {
+                                    options.onErrorValidate.call(this, getStatusCard());
+                                }
+                            }
+                        }
+                        if (options.onkeyUp && typeof options.onkeyUp == 'function') {
+                            options.onkeyUp.call(this, getStatusCard());
+                        }
+                        _element.data("valid", valid);
+                    });
+                }
+            });
+        },
+        destroy: function () {
+            return this.each(function() {
+                var _me = $(this);
+                _destroyForceBankingCard(_me);
             });
         }
     };
