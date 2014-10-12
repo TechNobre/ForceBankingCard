@@ -1,5 +1,0 @@
-//http://www.regular-expressions.info/creditcard.html
-//https://github.com/corbanworks/fng-credit-card-validator/blob/master/fngccvalidator.class.php
-//http://www.eixox.com.br/sobre/gerador-de-cartao-de-credito
-//http://en.wikipedia.org/wiki/Bank_card_number#Issuer_identification_number_.28IIN.29
-//http://www.cardhub.com/edu/credit-card-companies/
