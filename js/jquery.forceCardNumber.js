@@ -6,11 +6,12 @@ Options:
     align: Align text on input [ left | center | right ],
     length: Max length for input field [Integer number],
     separatorGroup: If existe decimal part [ true | false ],
-    charSeparator: character for separator group [ character ],
-    numberCharGroup: Number digits for group [Integer number],
+    charSeparator: Character for separator group [ character ],
+    digitsGroup: Number digits for group [Integer number],
     clearOnClick: If click in input clear field [ true | false ],
-    cardsValidate: Card list for validade [ array | string ] { AmericanExpress | DinersClubCarteBlanche | JCB | Laser | DinersClubCarteBlanche | VisaElectron | Visa | Dankort | InterPayment | MasterCard | Maestro | Discover },
+    cardsValidate: Card list for validade [ array | string ] { AmericanExpress | DinersClubCarteBlanche | JCB | Laser | VisaElectron | Visa | Dankort | InterPayment | MasterCard | Maestro | Discover },
     onSuccessValidate: Callback for card is valid [ function() {} ],
+    onErrorValidate: Callback for card is not valid [ function() {} ],
     onkeyUp: Callback for keyUp [ function() {} ]
 
 Defaults:
@@ -18,10 +19,11 @@ Defaults:
     length: null,
     separatorGroup: true,
     charSeparator: " ",
-    numberCharGroup: 4,
+    digitsGroup: 4,
     clearOnClick: true,
     cardsValidate: null,
     onSuccessValidate: null,
+    onErrorValidate: null,
     onkeyUp: null
 
 Usage: $("element").ForceCardNumber();
@@ -29,19 +31,19 @@ Usage: $("element").ForceCardNumber();
 Developer: Nelson Nobre
 
 Date: 11/10/2014
-Update: 11/10/2014
+Update: 12/10/2014
 
-Version: 1.0
+Version: 1.1
 ************************************************** */
 
 ; (function ($) {
     var pluginName = 'ForceCardNumber',
-        defaultsOptions = {
+        _defaultsOptions = {
             align: 'left',
             length: null,
             separatorGroup: true,
             charSeparator: " ",
-            numberCharGroup: 4,
+            digitsGroup: 4,
             clearOnClick: true,
             cardsValidate: null,
             onSuccessValidate: null,
@@ -67,11 +69,6 @@ Version: 1.0
                 type: "CreditCard",
                 regex: /^6(304|7(71|0[69]))/,
                 length: [16, 17, 18, 19]
-            },
-            DinersClubCarteBlanche: {
-                type: "CreditCard",
-                regex: /^30[0-5]/,
-                length: [14]
             },
             VisaElectron: {
                 type: "DebitCard",
@@ -112,8 +109,8 @@ Version: 1.0
 
     var methods = {
         init: function (options) {
-            if (options) { options = $.extend({}, defaultsOptions, options); }
-            else { options = defaultsOptions; }
+            if (options) { options = $.extend({}, _defaultsOptions, options); }
+            else { options = _defaultsOptions; }
             
             if(options.cardsValidate == null) {
                 options.cardsValidate = [];
@@ -171,8 +168,8 @@ Version: 1.0
                     ValidNumber: validCardLuhn,
                     ValidLength: validCardLength,
                     ValidType: validCardType,
-                    cardType: cardType,
-                    cardNetwork: cardNetwork
+                    CardType: cardType,
+                    CardNetwork: cardNetwork
                 };
             }
             
@@ -201,8 +198,8 @@ Version: 1.0
                     else if((key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
                         if((valueInput.length - countCharSeparator) < options.length) {
                             
-                            if((valueInput.length - countCharSeparator) >= options.numberCharGroup && options.separatorGroup) {
-                                if((valueInput.length - countCharSeparator) % options.numberCharGroup == 0)
+                            if((valueInput.length - countCharSeparator) >= options.digitsGroup && options.separatorGroup) {
+                                if((valueInput.length - countCharSeparator) % options.digitsGroup == 0)
                                     valueInput += options.charSeparator
                             }
                             if(key >= 48 && key <= 57)
@@ -242,9 +239,15 @@ Version: 1.0
                         
                         validCardLuhn = checkLuhn(_inputValue);
                         valid = ((validCardType && validCardLength && validCardLuhn) ? true : false);
-                        
-                        if (valid && options.onSuccessValidate && typeof options.onSuccessValidate == 'function') {
-                            options.onSuccessValidate.call(this, getStatusCard());
+
+                        if(valid) {
+                            if (options.onSuccessValidate && typeof options.onSuccessValidate == 'function') {
+                                options.onSuccessValidate.call(this, getStatusCard());
+                            }
+                        } else {
+                            if (options.onErrorValidate && typeof options.onErrorValidate == 'function') {
+                                options.onErrorValidate.call(this, getStatusCard());
+                            }
                         }
                     }
                     if (options.onkeyUp && typeof options.onkeyUp == 'function') {
@@ -254,13 +257,11 @@ Version: 1.0
                 });
                 
             });
-        
         }
     };
 
     // ***** Start: Supervisor *****
     $.fn[pluginName] = function (method) { //allow multiple element selection on same view
-
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         } else if (typeof method === 'object' || !method) {

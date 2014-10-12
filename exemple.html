@@ -22,24 +22,50 @@
                 font-style: italic;
                 color: #9a9a9a;
             }
-            .lineBox {
-                width: 100%;
+            h2, h3 {
+                cursor: pointer;
                 float: left;
+                width: 100%;
+                text-align: left;
             }
+            h2:hover, h3:hover {
+                opacity: 0.5;
+            }
+            
             .row {
                 float: left;
                 width: 100%;
                 text-align: center;
             }
-            div.boxExemple {
-                width: 500px;
-                margin: 10px;
-                padding: 10px;
-                border: 1px solid #000;
+            article {
+                display: none;
                 float: left;
+                width: 100%;
             }
-            div.boxExemple h2 { font-size: 20px; }
-            div.boxExemple h3 { 
+
+            .boxCategories {
+                background-color: #81e3fd;
+                border-left: 15px solid #0064ff;
+                float: left;
+                padding: 10px;
+                margin: 5px 0 5px 10px;
+                width: 650px;
+            }
+            .boxCategories h2 {
+                font-size: 22px;
+            }
+            
+            div.boxExemple {
+                width: 100%;
+                margin-top: 10px;
+                padding: 10px;
+                background-color: #f0e32b;
+                border-left: 15px solid #f0b833;
+                float: left;
+                text-align: left;
+            }
+            div.boxExemple h3 { font-size: 20px; }
+            div.boxExemple h4 { 
                 margin: 20px 0 5px 50px;
                 font-size: 15px;
                 font-style: italic;
@@ -67,7 +93,9 @@
                 font-size: 12px;
                 padding: 2px 5px;
             }
-            
+            div.boxExemple .exemple .cardList {
+                margin-top: 5px;
+            }
             div.boxExemple code {
                 display: block;
                 background-color: #eee;
@@ -88,86 +116,375 @@
     </head>
     <body>
         <h1>Plugin Jquery ForceCardNumber <span class="version">v:<span class="versionPlugin"></span></span></h1>
-        <div class="lineBox">
-            <div class="boxExemple">
-                <h2>Initialize plugin</h2>
-                <div class="description">How to initialize the plugin</div>
+        
+        <div class="row">
+            <div class="boxCategories">
+                <h2>Begin</h2>
+                <article>
+                    <div class="boxExemple">
+                        <h3>Initialize plugin</h3>
+                        <article>
+                            <div class="description">How to initialize the plugin</div>
 
-                <h3>Exemple</h3>
-                <div class="row">
-                    <div class="exemple">
-                        <input type="text" id="cardNumber1">
-                    </div>
-                </div>
-                <code>
-                    <pre>
+                            <h4>Exemple</h4>
+                            <div class="row">
+                                <div class="exemple">
+                                    <input type="text" id="cardNumber1">
+                                </div>
+                            </div>
+                            <code>
+                                <pre>
 < input type="text" id="cardNumber1" >
 $("#cardNumber1").ForceCardNumber();
-                    </pre>
-                </code>
-            </div>
-        </div>
-        
-        <div class="lineBox">
-            <div class="boxExemple">
-                <h2>Align numbers</h2>
-                <div class="description">Align numbers in input</div>
-                <h3>Default parameter</h3>
-                <div class="parameter">[ left ]</div>
-                <h3>Parameters</h3>
-                <div class="parameter">[ left | center | right ]</div>
-                <h3>Exemple</h3>
-                <div class="row">
-                    <div class="exemple">
-                        <input type="text" id="cardNumber2">
+                                </pre>
+                            </code>
+                        </article>
                     </div>
-                </div>
-                <code>
-                    <pre>
+                </article>
+            </div>
+            
+            <div class="row">
+                <div class="boxCategories">
+                    <h2>Parameters</h2>
+                    <article>
+
+                        <div class="boxExemple">
+                            <h3>Align numbers</h3>
+                            <article>
+                                <div class="description">Align numbers in input</div>
+                                <h4>Default parameter</h4>
+                                <div class="parameter">[ left ]</div>
+                                <h4>Parameters</h4>
+                                <div class="parameter">[ left | center | right ]</div>
+                                <h4>Exemple</h4>
+                                <div class="row">
+                                    <div class="exemple">
+                                        <input type="text" id="cardNumber2">
+                                    </div>
+                                </div>
+                                <code>
+                                    <pre>
 < input type="text" id="cardNumber2" >
 $("#cardNumber2").ForceCardNumber({
     align: "right"
 });
-                    </pre>
-                </code>
-            </div>
-        </div>        
-        
-        <div class="lineBox">
-            <div class="boxExemple">
-                <h2>Length</h2>
-                <div class="description">Max length digits for field</div>
-                <h3>Default parameter</h3>
-                <div class="parameter">Max length the card list max value</div>
-                <h3>Parameters</h3>
-                <div class="parameter">Intiger number</div>
-                <h3>Exemple</h3>
-                <div class="row">
-                    <div class="exemple">
-                        <input type="text" id="cardNumber3">
-                    </div>
-                </div>
-                <code>
-                    <pre>
+                                    </pre>
+                                </code>
+                            </article>
+                        </div>
+
+                        <div class="boxExemple">
+                            <h3>Length</h3>
+                            <article>
+                                <div class="description">Max length digits for field</div>
+                                <h4>Default parameter</h4>
+                                <div class="parameter">Max length the card list max value</div>
+                                <h4>Parameters</h4>
+                                <div class="parameter">Intiger number</div>
+                                <h4>Exemple</h4>
+                                <div class="row">
+                                    <div class="exemple">
+                                        <input type="text" id="cardNumber3">
+                                    </div>
+                                </div>
+                                <code>
+                                    <pre>
 < input type="text" id="cardNumber3" >
 $("#cardNumber3").ForceCardNumber({
     length: 5
 });
-                    </pre>
-                </code>
-            </div>
-        </div>    
+                                    </pre>
+                                </code>
+                            </article>
+                        </div>
 
+                        <div class="boxExemple">
+                            <h3>Separator group</h3>
+                            <article>
+                                <div class="description">Active or desactive separated into groups</div>
+                                <h4>Default parameter</h4>
+                                <div class="parameter">[ true ]</div>
+                                <h4>Parameters</h4>
+                                <div class="parameter">[ true | false ]</div>
+                                <h4>Exemple</h4>
+                                <div class="row">
+                                    <div class="exemple">
+                                        <input type="text" id="cardNumber4">
+                                    </div>
+                                </div>
+                                <code>
+                                    <pre>
+< input type="text" id="cardNumber4" >
+$("#cardNumber4").ForceCardNumber({
+    separatorGroup: false
+});
+                                    </pre>
+                                </code>
+                            </article>
+                        </div>
+
+                        <div class="boxExemple">
+                            <h3>Char separator</h3>
+                            <article>
+                                <div class="description">Character to separate the groups</div>
+                                <h4>Default parameter</h4>
+                                <div class="parameter">White space</div>
+                                <h4>Parameters</h4>
+                                <div class="parameter">one character</div>
+                                <h4>Exemple</h4>
+                                <div class="row">
+                                    <div class="exemple">
+                                        <input type="text" id="cardNumber5">
+                                    </div>
+                                </div>
+                                <code>
+                                    <pre>
+< input type="text" id="cardNumber5" >
+$("#cardNumber5").ForceCardNumber({
+    charSeparator: "-"
+});
+                                    </pre>
+                                </code>
+                            </article>
+                        </div>
+
+                        <div class="boxExemple">
+                            <h3>Digits group</h3>
+                            <article>
+                                <div class="description">Number of digits for groups</div>
+                                <h4>Default parameter</h4>
+                                <div class="parameter">4</div>
+                                <h4>Parameters</h4>
+                                <div class="parameter">Integer number</div>
+                                <h4>Exemple</h4>
+                                <div class="row">
+                                    <div class="exemple">
+                                        <input type="text" id="cardNumber6">
+                                    </div>
+                                </div>
+                                <code>
+                                    <pre>
+< input type="text" id="cardNumber6" >
+$("#cardNumber6").ForceCardNumber({
+    digitsGroup: 3
+});
+                                    </pre>
+                                </code>
+                            </article>
+                        </div>
+
+                        <div class="boxExemple">
+                            <h3>Clear on click</h3>
+                            <article>
+                                <div class="description">If click in input clear field</div>
+                                <h4>Default parameter</h4>
+                                <div class="parameter">[ true ]</div>
+                                <h4>Parameters</h4>
+                                <div class="parameter">[ true | false ]</div>
+                                <h4>Exemple</h4>
+                                <div class="row">
+                                    <div class="exemple">
+                                        <input type="text" id="cardNumber7">
+                                    </div>
+                                </div>
+                                <code>
+                                    <pre>
+< input type="text" id="cardNumber7" >
+$("#cardNumber7").ForceCardNumber({
+    clearOnClick: false
+});
+                                    </pre>
+                                </code>
+                            </article>
+                        </div>
+
+                        <div class="boxExemple">
+                            <h3>Cards validate</h3>
+                            <article>
+                                <div class="description">Card list for validade</div>
+                                <h4>Default parameter</h4>
+                                <div class="parameter">All cards</div>
+                                <h4>Parameters</h4>
+                                <div class="parameter">[ array | string ] { AmericanExpress | DinersClubCarteBlanche | JCB | Laser | VisaElectron | Visa | Dankort | InterPayment | MasterCard | Maestro | Discover }</div>
+                                <h4>Exemple</h4>
+                                <div class="row">
+                                    <div class="exemple">
+                                        <input type="text" id="cardNumber8">
+                                    </div>
+                                </div>
+                                <code>
+                                    <pre>
+< input type="text" id="cardNumber8" >
+$("#cardNumber8").ForceCardNumber({
+    cardsValidate: ["Visa", "MasterCard"]
+});
+                                    </pre>
+                                </code>
+                            </article>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            
+            <div class="boxCategories">
+                <h2>Callbacks</h2>
+                <article>
+                    <div class="boxExemple">
+                        <h3>On success validate</h3>
+                        <article>
+                            <div class="description">Callback for card is valid</div>
+                            <h4>Return</h4>
+                            <div class="parameter">[ Valid | ValidNumber ValidLength | ValidType | CardType | CardNetwork ]</div>
+                            <h4>Exemple</h4>
+                            <div class="row">
+                                <div class="exemple">
+                                    <input type="text" id="cardNumber9">
+                                </div>
+                            </div>
+                            <code>
+                                <pre>
+< input type="text" id="cardNumber9" >
+$("#cardNumber9").ForceCardNumber({
+    onSuccessValidate: function(data) {
+        if(data.Valid)
+            $(this).css({"background-color": "#0f0"});
+    }
+});
+                                </pre>
+                            </code>
+                        </article>
+                    </div>
+                    
+                    <div class="boxExemple">
+                        <h3>On error validate</h3>
+                        <article>
+                            <div class="description">Callback for card is not valid</div>
+                            <h4>Return</h4>
+                            <div class="parameter">[ Valid | ValidNumber ValidLength | ValidType | CardType | CardNetwork ]</div>
+                            <h4>Exemple</h4>
+                            <div class="row">
+                                <div class="exemple">
+                                    <input type="text" id="cardNumber10">
+                                </div>
+                            </div>
+                            <code>
+                                <pre>
+< input type="text" id="cardNumber10" >
+$("#cardNumber10").ForceCardNumber({
+    onErrorValidate: function(data) {
+        if(!data.Valid)
+            $(this).css({"background-color": "#f00"});
+    }
+});
+                                </pre>
+                            </code>
+                        </article>
+                    </div>
+                    
+                    <div class="boxExemple">
+                        <h3>On key up</h3>
+                        <article>
+                            <div class="description">Callback for keyUp</div>
+                            <h4>Return</h4>
+                            <div class="parameter">[ Valid | ValidNumber ValidLength | ValidType | CardType | CardNetwork ]</div>
+                            <h4>Exemple</h4>
+                            <div class="row">
+                                <div class="exemple">
+                                    <input type="text" id="cardNumber11">
+                                    <div class="cardList">
+                                        <img class="AmericanExpress" src="imgs/cardAmericanExpress.png">
+                                        <img class="Dankort" src="imgs/cardDankort.png">
+                                        <img class="DinersClubCarteBlanche" src="imgs/cardDinersClubCarteBlanche.png">
+                                        <img class="Discover" src="imgs/cardDiscover.png">
+                                        <img class="JCB" src="imgs/cardJCB.png">
+                                        <img class="Laser" src="imgs/cardLaser.png">
+                                        <img class="Maestro" src="imgs/cardMaestro.png">
+                                        <img class="MasterCard" src="imgs/cardMasterCard.png">
+                                        <img class="Visa" src="imgs/cardVisa.png">
+                                        <img class="VisaElectron" src="imgs/cardVisaElectron.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <code>
+                                <pre>
+< input type="text" id="cardNumber10" >
+$("#cardNumber11").ForceCardNumber({
+  onkeyUp: function(data) {
+    $(".cardList img").css({"opacity": "1"});
+      if(typeof data.CardNetwork !== "undefined")
+        $(".cardList img").not("." + data.CardNetwork).css({"opacity": "0.2"});        
+      if(data.Valid)
+        $(this).css({"background-color": "#0f0"});
+      else
+        $(this).css({"background-color": "#f00"});
+    }
+});
+                                </pre>
+                            </code>
+                        </article>
+                    </div>
+                    
+                    
+                </article>
+            </div>
+        
+        
+        
+        
+        
+        
+        </div>
+        
         <script>
             $(document).ready(function() {
-                $(".versionPlugin").text("1.0");
-
+                $(".versionPlugin").text("1.1");
+                $("h2, h3").click(function(){
+                    $(this).next("article").slideToggle();
+                });
                 $("#cardNumber1").ForceCardNumber();
                 $("#cardNumber2").ForceCardNumber({
                     align: "right"
                 });
                 $("#cardNumber3").ForceCardNumber({
                     length: 5
+                });
+                $("#cardNumber4").ForceCardNumber({
+                    separatorGroup: false
+                });
+                $("#cardNumber5").ForceCardNumber({
+                    charSeparator: "-"
+                });
+                $("#cardNumber6").ForceCardNumber({
+                    digitsGroup: 3
+                });
+                $("#cardNumber7").ForceCardNumber({
+                    clearOnClick: false
+                });
+                $("#cardNumber8").ForceCardNumber({
+                    cardsValidate: ["Visa", "MasterCard"]
+                });
+                $("#cardNumber9").ForceCardNumber({
+                    onSuccessValidate: function(data) {
+                        if(data.Valid)
+                            $(this).css({"background-color": "#0f0"});
+                    }
+                });
+                $("#cardNumber10").ForceCardNumber({
+                    onErrorValidate: function(data) {
+                        if(!data.Valid)
+                            $(this).css({"background-color": "#f00"});
+                    }
+                });
+                $("#cardNumber11").ForceCardNumber({
+                    onkeyUp: function(data) {
+                        $(".cardList img").css({"opacity": "1"});
+                        if(typeof data.CardNetwork !== "undefined")
+                            $(".cardList img").not("." + data.CardNetwork).css({"opacity": "0.2"});        
+                        if(data.Valid)
+                            $(this).css({"background-color": "#0f0"});
+                        else
+                            $(this).css({"background-color": "#f00"});
+                    }
                 });
             });
         </script>
