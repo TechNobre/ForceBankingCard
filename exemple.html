@@ -2,10 +2,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Plugin Jquery ForceCardNumber</title>
+        <title>Plugin Jquery ForceBankingCard</title>
         
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="js/jquery.forceCardNumber.js"></script>
+        <script type="text/javascript" src="js/jquery.ForceBankingCard.js"></script>
         
         <style>
             * {
@@ -115,7 +115,7 @@
         </style>
     </head>
     <body>
-        <h1>Plugin Jquery ForceCardNumber <span class="version">v:<span class="versionPlugin"></span></span></h1>
+        <h1>Plugin Jquery ForceBankingCard <span class="version">v:<span class="versionPlugin"></span></span></h1>
         
         <div class="row">
             <div class="boxCategories">
@@ -135,7 +135,7 @@
                             <code>
                                 <pre>
 < input type="text" id="cardNumber1" >
-$("#cardNumber1").ForceCardNumber();
+$("#cardNumber1").ForceBankingCard();
                                 </pre>
                             </code>
                         </article>
@@ -165,7 +165,7 @@ $("#cardNumber1").ForceCardNumber();
                                 <code>
                                     <pre>
 < input type="text" id="cardNumber2" >
-$("#cardNumber2").ForceCardNumber({
+$("#cardNumber2").ForceBankingCard({
     align: "right"
 });
                                     </pre>
@@ -190,7 +190,7 @@ $("#cardNumber2").ForceCardNumber({
                                 <code>
                                     <pre>
 < input type="text" id="cardNumber3" >
-$("#cardNumber3").ForceCardNumber({
+$("#cardNumber3").ForceBankingCard({
     length: 5
 });
                                     </pre>
@@ -215,7 +215,7 @@ $("#cardNumber3").ForceCardNumber({
                                 <code>
                                     <pre>
 < input type="text" id="cardNumber4" >
-$("#cardNumber4").ForceCardNumber({
+$("#cardNumber4").ForceBankingCard({
     separatorGroup: false
 });
                                     </pre>
@@ -240,7 +240,7 @@ $("#cardNumber4").ForceCardNumber({
                                 <code>
                                     <pre>
 < input type="text" id="cardNumber5" >
-$("#cardNumber5").ForceCardNumber({
+$("#cardNumber5").ForceBankingCard({
     charSeparator: "-"
 });
                                     </pre>
@@ -265,7 +265,7 @@ $("#cardNumber5").ForceCardNumber({
                                 <code>
                                     <pre>
 < input type="text" id="cardNumber6" >
-$("#cardNumber6").ForceCardNumber({
+$("#cardNumber6").ForceBankingCard({
     digitsGroup: 3
 });
                                     </pre>
@@ -290,7 +290,7 @@ $("#cardNumber6").ForceCardNumber({
                                 <code>
                                     <pre>
 < input type="text" id="cardNumber7" >
-$("#cardNumber7").ForceCardNumber({
+$("#cardNumber7").ForceBankingCard({
     clearOnClick: false
 });
                                     </pre>
@@ -315,7 +315,7 @@ $("#cardNumber7").ForceCardNumber({
                                 <code>
                                     <pre>
 < input type="text" id="cardNumber8" >
-$("#cardNumber8").ForceCardNumber({
+$("#cardNumber8").ForceBankingCard({
     cardsValidate: ["Visa", "MasterCard"]
 });
                                     </pre>
@@ -344,7 +344,7 @@ $("#cardNumber8").ForceCardNumber({
                             <code>
                                 <pre>
 < input type="text" id="cardNumber9" >
-$("#cardNumber9").ForceCardNumber({
+$("#cardNumber9").ForceBankingCard({
     onSuccessValidate: function(data) {
         if(data.Valid)
             $(this).css({"background-color": "#0f0"});
@@ -370,7 +370,7 @@ $("#cardNumber9").ForceCardNumber({
                             <code>
                                 <pre>
 < input type="text" id="cardNumber10" >
-$("#cardNumber10").ForceCardNumber({
+$("#cardNumber10").ForceBankingCard({
     onErrorValidate: function(data) {
         if(!data.Valid)
             $(this).css({"background-color": "#f00"});
@@ -408,7 +408,7 @@ $("#cardNumber10").ForceCardNumber({
                             <code>
                                 <pre>
 < input type="text" id="cardNumber10" >
-$("#cardNumber11").ForceCardNumber({
+$("#cardNumber11").ForceBankingCard({
   onkeyUp: function(data) {
     $(".cardList img").css({"opacity": "1"});
       if(typeof data.CardNetwork !== "undefined")
@@ -427,55 +427,49 @@ $("#cardNumber11").ForceCardNumber({
                     
                 </article>
             </div>
-        
-        
-        
-        
-        
-        
         </div>
         
         <script>
             $(document).ready(function() {
-                $(".versionPlugin").text("1.1");
+                $(".versionPlugin").text("1.2");
                 $("h2, h3").click(function(){
                     $(this).next("article").slideToggle();
                 });
-                $("#cardNumber1").ForceCardNumber();
-                $("#cardNumber2").ForceCardNumber({
+                $("#cardNumber1").ForceBankingCard();
+                $("#cardNumber2").ForceBankingCard({
                     align: "right"
                 });
-                $("#cardNumber3").ForceCardNumber({
+                $("#cardNumber3").ForceBankingCard({
                     length: 5
                 });
-                $("#cardNumber4").ForceCardNumber({
+                $("#cardNumber4").ForceBankingCard({
                     separatorGroup: false
                 });
-                $("#cardNumber5").ForceCardNumber({
+                $("#cardNumber5").ForceBankingCard({
                     charSeparator: "-"
                 });
-                $("#cardNumber6").ForceCardNumber({
+                $("#cardNumber6").ForceBankingCard({
                     digitsGroup: 3
                 });
-                $("#cardNumber7").ForceCardNumber({
+                $("#cardNumber7").ForceBankingCard({
                     clearOnClick: false
                 });
-                $("#cardNumber8").ForceCardNumber({
+                $("#cardNumber8").ForceBankingCard({
                     cardsValidate: ["Visa", "MasterCard"]
                 });
-                $("#cardNumber9").ForceCardNumber({
+                $("#cardNumber9").ForceBankingCard({
                     onSuccessValidate: function(data) {
                         if(data.Valid)
                             $(this).css({"background-color": "#0f0"});
                     }
                 });
-                $("#cardNumber10").ForceCardNumber({
+                $("#cardNumber10").ForceBankingCard({
                     onErrorValidate: function(data) {
                         if(!data.Valid)
                             $(this).css({"background-color": "#f00"});
                     }
                 });
-                $("#cardNumber11").ForceCardNumber({
+                $("#cardNumber11").ForceBankingCard({
                     onkeyUp: function(data) {
                         $(".cardList img").css({"opacity": "1"});
                         if(typeof data.CardNetwork !== "undefined")

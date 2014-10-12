@@ -1,6 +1,6 @@
 /* ***************************************************
 
-Plugin: Numeric only fields allowing decimal point
+Plugin: Force input only numeric Banking Card and validate
 
 Options:
     align: Align text on input [ left | center | right ],
@@ -26,7 +26,7 @@ Defaults:
     onErrorValidate: null,
     onkeyUp: null
 
-Usage: $("element").ForceCardNumber();
+Usage: $("element").ForceBankingCard();
 
 Developer: Nelson Nobre
 
@@ -37,7 +37,7 @@ Version: 1.1
 ************************************************** */
 
 ; (function ($) {
-    var pluginName = 'ForceCardNumber',
+    var pluginName = 'ForceBankingCard',
         _defaultsOptions = {
             align: 'left',
             length: null,
