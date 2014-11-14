@@ -353,6 +353,31 @@ $("#cardNumber12").ForceBankingCard({
                                 </code>
                             </article>
                         </div>
+
+                        <div class="boxExemple">
+                            <h3>Validate card</h3>
+                            <article>
+                                <div class="description">Enable or disable the validation card,</div>
+                                <h4>Default parameter</h4>
+                                <div class="parameter">[ true ]</div>
+                                <h4>Parameters</h4>
+                                <div class="parameter">[ true | false ]</div>
+                                <h4>Exemple</h4>
+                                <div class="row">
+                                    <div class="exemple">
+                                        <input type="text" id="cardNumber14">
+                                    </div>
+                                </div>
+                                <code>
+                                    <pre>
+< input type="text" id="cardNumber14" >
+$("#cardNumber14").ForceBankingCard({
+    validateCard: false,
+});
+                                    </pre>
+                                </code>
+                            </article>
+                        </div>
                     </article>
                 </div>
             </div>
@@ -503,7 +528,7 @@ $("#removePlugin").click(function() {
         
         <script>
             $(document).ready(function() {
-                $(".versionPlugin").text("1.3");
+                $(".versionPlugin").text("1.4");
                 $("h2, h3").click(function(){
                     $(this).next("article").slideToggle();
                 });
@@ -544,6 +569,7 @@ $("#removePlugin").click(function() {
                 });
                 $("#cardNumber11").ForceBankingCard({
                     onkeyUp: function(data) {
+                        alert("dd")
                         $(".cardList img").css({"opacity": "1"});
                         if(typeof data.CardNetwork !== "undefined")
                             $(".cardList img").not("." + data.CardNetwork).css({"opacity": "0.2"});        
@@ -563,6 +589,10 @@ $("#removePlugin").click(function() {
                 });
                 $("#removePlugin").click(function() {
                     $("#cardNumber13").ForceBankingCard("destroy");
+                });
+                
+                $("#cardNumber14").ForceBankingCard({
+                    validateCard: false
                 });
             });
         </script>

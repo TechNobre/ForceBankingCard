@@ -1,6 +1,10 @@
 ForceBankingCard
 ===============
 
+Version: 1.4:
+    * Added new parameter "validateCard"
+    * Updated verify callback and arrays
+
 Version: 1.3:
     * Added new parameter "blockCutCopyPaste"
     * Added new method "destroy"

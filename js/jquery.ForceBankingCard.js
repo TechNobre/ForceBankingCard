@@ -12,6 +12,7 @@ Parameters:
         clearOnClick: If click in input clear field [ true | false ],
         blockCutCopyPaste: If it is possible to cut copy paste [ true | false ],
         cardsValidate: Card list for validade [ array | string ] { AmericanExpress | DinersClubCarteBlanche | JCB | Laser | VisaElectron | Visa | Dankort | InterPayment | MasterCard | Maestro | Discover },
+        validateCard: Enable or disable the validation card [ true | false ],
 
     Defaults:
         align: 'left',
@@ -22,6 +23,7 @@ Parameters:
         clearOnClick: true,
         blockCutCopyPaste: true,
         cardsValidate: null,
+        validateCard: true,
 
 Callbacks:
     onSuccessValidate: Callback for card is valid [ function() {} ],
@@ -36,9 +38,9 @@ Usage: $("element").ForceBankingCard();
 Developer: Nelson Nobre
 
 Date: 11/10/2014
-Update: 12/10/2014
+Update: 13/11/2014
 
-Version: 1.3
+Version: 1.4
 ************************************************** */
 
 ; (function ($) {
@@ -52,6 +54,7 @@ Version: 1.3
             clearOnClick: true,
             blockCutCopyPaste: true,
             cardsValidate: null,
+            validateCard: true,
             onSuccessValidate: null,
             onkeyUp: null
         },
@@ -136,7 +139,7 @@ Version: 1.3
                     return false;
                 }
                 options.cardsValidate = [options.cardsValidate];
-            } else if(Object.prototype.toString.call(options.cardsValidate) === '[object Array]') {
+            } else if($.isArray(options.cardsValidate)) {
                 for(var key in options.cardsValidate) {
                     if(!(options.cardsValidate[key] in cardsList)) {
                         console.error("The type card is not supported;");
@@ -235,50 +238,52 @@ Version: 1.3
                         _me.val(valueInput);
                     });
 
-                    _me.keyup(function() {
-                        var _element = $(this);
-                        var _inputValue = _element.val().replace(new RegExp(options.charSeparator, 'g'), '');
+                    if (options.validateCard) {
+                        _me.keyup(function() {
+                            var _element = $(this);
+                            var _inputValue = _element.val().replace(new RegExp(options.charSeparator, 'g'), '');
 
-                        valid = false;
-                        validCardType = false;
-                        validCardLength = false;
-                        validCardLuhn = false;
-                        cardNetwork = undefined;
-                        cardType = undefined;
+                            valid = false;
+                            validCardType = false;
+                            validCardLength = false;
+                            validCardLuhn = false;
+                            cardNetwork = undefined;
+                            cardType = undefined;
 
-                        for(var key in options.cardsValidate) {
-                            if(_inputValue.match(cardsList[options.cardsValidate[key]].regex)) {
-                                cardNetwork = options.cardsValidate[key];
-                                break;
-                            }                    
-                        }
+                            for(var key in options.cardsValidate) {
+                                if(_inputValue.match(cardsList[options.cardsValidate[key]].regex)) {
+                                    cardNetwork = options.cardsValidate[key];
+                                    break;
+                                }                    
+                            }
 
-                        var validLuhn = false;
-                        if(options.cardsValidate.indexOf(cardNetwork) != -1) {
-                            validCardType = true;
-                            cardType = cardsList[cardNetwork].type;
+                            var validLuhn = false;
+                            if(options.cardsValidate.indexOf(cardNetwork) != -1) {
+                                validCardType = true;
+                                cardType = cardsList[cardNetwork].type;
 
-                            if(cardsList[cardNetwork].length.indexOf(_inputValue.length) != -1 )
-                                validCardLength = true;
+                                if(cardsList[cardNetwork].length.indexOf(_inputValue.length) != -1 )
+                                    validCardLength = true;
 
-                            validCardLuhn = checkLuhn(_inputValue);
-                            valid = ((validCardType && validCardLength && validCardLuhn) ? true : false);
+                                validCardLuhn = checkLuhn(_inputValue);
+                                valid = ((validCardType && validCardLength && validCardLuhn) ? true : false);
 
-                            if(valid) {
-                                if (options.onSuccessValidate && typeof options.onSuccessValidate == 'function') {
-                                    options.onSuccessValidate.call(this, getStatusCard());
-                                }
-                            } else {
-                                if (options.onErrorValidate && typeof options.onErrorValidate == 'function') {
-                                    options.onErrorValidate.call(this, getStatusCard());
+                                if(valid) {
+                                    $.isFunction(options.onSuccessValidate) && options.onSuccessValidate.call(this, getStatusCard());
+                                } else {
+                                    $.isFunction(options.onErrorValidate) && options.onErrorValidate.call(this, getStatusCard());
                                 }
                             }
-                        }
-                        if (options.onkeyUp && typeof options.onkeyUp == 'function') {
-                            options.onkeyUp.call(this, getStatusCard());
-                        }
-                        _element.data("valid", valid);
-                    });
+                            
+                            $.isFunction(options.onkeyUp) && options.onkeyUp.call(this, getStatusCard);
+                            
+                            _element.data("valid", valid);
+                        });
+                    } else {
+                        _me.keyup(function() {
+                            $.isFunction(options.onkeyUp) && options.onkeyUp.call(this);
+                        });
+                    }                    
                 }
             });
         },
